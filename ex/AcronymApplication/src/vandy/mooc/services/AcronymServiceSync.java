@@ -1,5 +1,6 @@
 package vandy.mooc.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vandy.mooc.aidl.AcronymCall;
@@ -7,7 +8,6 @@ import vandy.mooc.aidl.AcronymData;
 import vandy.mooc.utils.Utils;
 import android.content.Context;
 import android.content.Intent;
-import android.net.http.AndroidHttpClient;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -30,25 +30,7 @@ import android.util.Log;
  *        interprocess communication details are hidden behind the
  *        AIDL interfaces.
  */
-@SuppressWarnings("deprecation")
 public class AcronymServiceSync extends LifecycleLoggingService {
-    /**
-     * Logging tag.
-     */
-    private final static String TAG =
-        AcronymServiceSync.class.getCanonicalName();
-
-    /**
-     * Called when a client (e.g., AcronymActivity) calls
-     * bindService() with the proper Intent.  Returns the
-     * implementation of AcronymCall, which is implicitly cast as an
-     * IBinder.
-     */
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mAcronymCallImpl;
-    }
-
     /**
      * Factory method that makes an Intent used to start the
      * AcronymServiceSync when passed to bindService().
@@ -59,6 +41,17 @@ public class AcronymServiceSync extends LifecycleLoggingService {
     public static Intent makeIntent(Context context) {
         return new Intent(context,
                           AcronymServiceSync.class);
+    }
+
+    /**
+     * Called when a client (e.g., AcronymActivity) calls
+     * bindService() with the proper Intent.  Returns the
+     * implementation of AcronymCall, which is implicitly cast as an
+     * IBinder.
+     */
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mAcronymCallImpl;
     }
 
     /**
@@ -87,11 +80,22 @@ public class AcronymServiceSync extends LifecycleLoggingService {
                 List<AcronymData> acronymResults = 
                     Utils.getResults(acronym);
 
-                Log.d(TAG, "" + acronymResults.size() + " results for acronym: " + acronym);
+                if (acronymResults != null) {
+                    Log.d(TAG, "" 
+                          + acronymResults.size() 
+                          + " results for acronym: " 
+                          + acronym);
 
-                // Return the list of acronym expansions back to the
-                // AcronymActivity.
-                return acronymResults;
+                    // Return the list of acronym expansions back to the
+                    // AcronymActivity.
+                    return acronymResults;
+                } else {
+                    // Create a zero-sized acronymResults object to
+                    // indicate to the caller that the acronym had no
+                    // expansions.
+                    acronymResults = new ArrayList<AcronymData>();
+                    return acronymResults;
+                }
             }
 	};
 }
