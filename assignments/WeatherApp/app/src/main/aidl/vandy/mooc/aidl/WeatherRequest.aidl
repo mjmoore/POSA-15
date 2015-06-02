@@ -16,5 +16,6 @@ interface WeatherRequest {
     * containing the results from the Weather Service web service back
     * to the WeatherActivity via the one-way sendResults() method.
     */
-    oneway void getCurrentWeather(in String Weather, in WeatherResults results);
+    oneway void getCurrentWeather(in String Weather,
+                                  in WeatherResults results); 
 }

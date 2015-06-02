@@ -33,7 +33,10 @@ import android.os.Parcelable;
  * https://developer.android.com/reference/android/os/Parcelable.html.
  */
 public class WeatherData implements Parcelable {
-
+    /*
+     * These data members are the local variables that will store the
+     * WeatherData's state
+     */
     private String mName;
     private double mSpeed;
     private double mDeg;
@@ -42,9 +45,24 @@ public class WeatherData implements Parcelable {
     private long mSunrise;
     private long mSunset;
 
-    public WeatherData(String name, double speed, double deg, double temp, long humidity, long sunrise,
-            long sunset) {
-
+    /**
+     * Constructor
+     * 
+     * @param name
+     * @param speed
+     * @param deg
+     * @param temp
+     * @param humidity
+     * @param sunrise
+     * @param sunset
+     */
+    public WeatherData(String name,
+                       double speed,
+                       double deg,
+                       double temp,
+                       long humidity,
+                       long sunrise,
+                       long sunset) {
         mName = name;
         mSpeed = speed;
         mDeg = deg;
@@ -59,8 +77,13 @@ public class WeatherData implements Parcelable {
      */
     @Override
     public String toString() {
-        return "WeatherData [name=" + mName + ", speed=" + mSpeed + ", deg=" + mDeg + ", temp=" + mTemp
-            + ", humidity=" + mHumidity + ", sunrise=" + mSunrise + ", sunset=" + mSunset + "]";
+        return "WeatherData [name=" + mName 
+            + ", speed=" + mSpeed
+            + ", deg=" + mDeg 
+            + ", temp=" + mTemp 
+            + ", humidity=" + mHumidity 
+            + ", sunrise=" + mSunrise 
+            + ", sunset=" + mSunset + "]";
     }
 
     /*
