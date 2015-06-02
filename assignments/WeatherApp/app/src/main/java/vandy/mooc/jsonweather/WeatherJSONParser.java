@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.util.JsonReader;
-import android.util.JsonToken;
 
 /**
  * Parses the Json weather data returned from the Weather Services API
