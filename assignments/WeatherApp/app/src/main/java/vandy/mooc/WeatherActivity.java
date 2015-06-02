@@ -5,34 +5,34 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import vandy.mooc.utils.RetainedFragmentManager;
+
 
 public class WeatherActivity extends Activity {
+
+    private final String TAG = WeatherActivity.class.getName();
+
+    private final RetainedFragmentManager mFragmentManager = new RetainedFragmentManager(
+        this.getFragmentManager(), TAG);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+
+        //Setup or retrieve fragment manager
+        handleConfigurationChange();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.weather_menu, menu);
-        return true;
-    }
+    private void handleConfigurationChange() {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if(!mFragmentManager.firstTimeIn()) {
+            //TODO: Restore state
+            return;
         }
 
-        return super.onOptionsItemSelected(item);
+        //TODO: Setup state
+        return;
     }
+
 }
