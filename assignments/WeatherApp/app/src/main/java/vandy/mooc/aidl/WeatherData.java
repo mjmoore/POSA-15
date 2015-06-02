@@ -45,24 +45,9 @@ public class WeatherData implements Parcelable {
     private long mSunrise;
     private long mSunset;
 
-    /**
-     * Constructor
-     * 
-     * @param name
-     * @param speed
-     * @param deg
-     * @param temp
-     * @param humidity
-     * @param sunrise
-     * @param sunset
-     */
-    public WeatherData(String name,
-                       double speed,
-                       double deg,
-                       double temp,
-                       long humidity,
-                       long sunrise,
-                       long sunset) {
+    public WeatherData(String name, double speed, double deg, double temp, long humidity,
+            long sunrise, long sunset) {
+
         mName = name;
         mSpeed = speed;
         mDeg = deg;
@@ -77,12 +62,8 @@ public class WeatherData implements Parcelable {
      */
     @Override
     public String toString() {
-        return "WeatherData [name=" + mName 
-            + ", speed=" + mSpeed
-            + ", deg=" + mDeg 
-            + ", temp=" + mTemp 
-            + ", humidity=" + mHumidity 
-            + ", sunrise=" + mSunrise 
+        return "WeatherData [name=" + mName  + ", speed=" + mSpeed  + ", deg=" + mDeg
+            + ", temp=" + mTemp + ", humidity=" + mHumidity + ", sunrise=" + mSunrise
             + ", sunset=" + mSunset + "]";
     }
 
