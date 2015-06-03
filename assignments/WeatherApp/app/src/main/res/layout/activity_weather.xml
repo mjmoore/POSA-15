@@ -9,37 +9,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/locationInput"
-        android:layout_alignParentStart="true"
+        android:text="Input location"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/asyncSwitch"
-        android:text="Location" />
+        android:layout_marginBottom="42dp"
+        android:layout_alignParentStart="true" />
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Async"
         android:id="@+id/asyncSwitch"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/locationInput"
-        android:checked="false" />
+        android:checked="false"
+        android:layout_alignBottom="@+id/fetchButton"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fetch"
         android:id="@+id/fetchButton"
-        android:layout_below="@+id/locationInput"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Sync "
+        android:id="@+id/syncLabel"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/asyncSwitch" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" Async"
+        android:id="@+id/asyncLabel"
+        android:layout_alignBottom="@+id/asyncSwitch"
+        android:layout_toEndOf="@+id/asyncSwitch" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_below="@+id/fetchButton"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="46dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/locationInput"
         android:gravity="center_vertical|center_horizontal" />
 
 </RelativeLayout>
