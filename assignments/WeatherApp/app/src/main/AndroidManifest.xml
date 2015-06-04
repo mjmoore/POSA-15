@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vandy.mooc" >
 
+    <uses-sdk android:minSdkVersion="19"
+        android:targetSdkVersion="21"
+        android:maxSdkVersion="22" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +22,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="vandy.mooc.services.WeatherAsyncService"
+            android:process=":remote1" >
+        </service>
+        <service
+            android:name="vandy.mooc.services.WeatherSyncService"
+            android:process=":remote2" >
+        </service>
     </application>
 
 </manifest>

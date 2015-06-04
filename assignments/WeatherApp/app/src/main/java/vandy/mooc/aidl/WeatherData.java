@@ -62,9 +62,9 @@ public class WeatherData implements Parcelable {
      */
     @Override
     public String toString() {
-        return "WeatherData [name=" + mName  + ", speed=" + mSpeed  + ", deg=" + mDeg
-            + ", temp=" + mTemp + ", humidity=" + mHumidity + ", sunrise=" + mSunrise
-            + ", sunset=" + mSunset + "]";
+        return "Name: " + mName  + "\nSpeed: " + mSpeed  + "\nDegrees:" + mDeg
+            + "\nTemperature: " + mTemp + "\nhumidity: " + mHumidity + "\nSunrise:" + mSunrise
+            + "\nSunset: " + mSunset;
     }
 
     /*
