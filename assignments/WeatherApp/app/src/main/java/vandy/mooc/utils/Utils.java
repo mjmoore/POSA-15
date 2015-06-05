@@ -12,6 +12,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class Utils {
 
         try {
             final URL url = new URL(WebServiceUrl + location);
+            System.out.println(url.toString());
             final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             try (InputStream in = new BufferedInputStream(urlConnection.getInputStream())) {
@@ -48,6 +50,9 @@ public class Utils {
 
         final List<WeatherData> weatherData = new ArrayList<>();
         for (JsonWeather weather : jsonWeather) {
+            if(weather.getCod() != 200)
+                continue;
+
             weatherData.add(new WeatherData(
                 weather.getName(), weather.getWind().getSpeed(), weather.getWind().getDeg(),
                 weather.getMain().getTemp(), weather.getMain().getHumidity(),

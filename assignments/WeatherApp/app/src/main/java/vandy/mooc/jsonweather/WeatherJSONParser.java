@@ -17,7 +17,7 @@ public class WeatherJSONParser {
     private final String TAG = this.getClass().getCanonicalName();
 
     public List<JsonWeather> parseJsonStream(InputStream inputStream) throws IOException {
-        try(JsonReader jsonReader = new JsonReader(new InputStreamReader(inputStream))) {
+        try (JsonReader jsonReader = new JsonReader(new InputStreamReader(inputStream))) {
             return parseJsonWeatherArray(jsonReader);
         }
     }
@@ -25,15 +25,15 @@ public class WeatherJSONParser {
     /**
      * Parse a Json stream and convert it into a List of JsonWeather objects.
      */
-    public List<JsonWeather> parseJsonWeatherArray(JsonReader reader)  throws IOException {
+    public List<JsonWeather> parseJsonWeatherArray(JsonReader reader) throws IOException {
 
         final List<JsonWeather> jsonWeathers = new ArrayList<>();
 
-        reader.beginArray();
-        while(reader.hasNext()) {
+        reader.beginObject();
+        while (reader.hasNext()) {
             jsonWeathers.add(parseJsonWeather(reader));
         }
-        reader.endArray();
+        reader.endObject();
 
         return jsonWeathers;
     }
@@ -42,46 +42,55 @@ public class WeatherJSONParser {
      * Parse a Json stream and return a JsonWeather object.
      */
     public JsonWeather parseJsonWeather(JsonReader reader) throws IOException {
-        reader.beginObject();
 
         final JsonWeather jsonWeather = new JsonWeather();
-        while(reader.hasNext()) {
-            switch(reader.nextName()) {
+        while (reader.hasNext()) {
+            final String nextName = reader.nextName();
+            System.out.println(nextName);
+            switch (nextName) {
                 case JsonWeather.sys_JSON:
-                    jsonWeather.setSys(parseSys(reader)); break;
+                    jsonWeather.setSys(parseSys(reader));
+                    break;
                 case JsonWeather.base_JSON:
-                    jsonWeather.setBase(reader.nextString()); break;
+                    jsonWeather.setBase(reader.nextString());
+                    break;
                 case JsonWeather.name_JSON:
-                    jsonWeather.setName(reader.nextString()); break;
+                    jsonWeather.setName(reader.nextString());
+                    break;
                 case JsonWeather.main_JSON:
-                    jsonWeather.setMain(parseMain(reader)); break;
+                    jsonWeather.setMain(parseMain(reader));
+                    break;
                 case JsonWeather.wind_JSON:
-                    jsonWeather.setWind(parseWind(reader)); break;
+                    jsonWeather.setWind(parseWind(reader));
+                    break;
                 case JsonWeather.dt_JSON:
-                    jsonWeather.setDt(reader.nextLong()); break;
+                    jsonWeather.setDt(reader.nextLong());
+                    break;
                 case JsonWeather.id_JSON:
-                    jsonWeather.setId((reader.nextLong())); break;
+                    jsonWeather.setId((reader.nextLong()));
+                    break;
                 case JsonWeather.cod_JSON:
-                    jsonWeather.setCod(reader.nextLong()); break;
+                    jsonWeather.setCod(reader.nextLong());
+                    break;
                 case JsonWeather.weather_JSON:
-                    jsonWeather.setWeather(parseWeathers(reader)); break;
+                    jsonWeather.setWeather(parseWeathers(reader));
+                    break;
                 default:
-                    reader.skipValue(); break;
+                    reader.skipValue();
+                    break;
             }
         }
-        reader.endObject();
 
         return jsonWeather;
     }
-    
+
     /**
      * Parse a Json stream and return a List of Weather objects.
      */
     public List<Weather> parseWeathers(JsonReader reader) throws IOException {
         reader.beginArray();
-
         final List<Weather> weathers = new ArrayList<>();
-        while(reader.hasNext()) {
+        while (reader.hasNext()) {
             weathers.add(parseWeather(reader));
         }
         reader.endArray();
@@ -93,28 +102,34 @@ public class WeatherJSONParser {
      * Parse a Json stream and return a Weather object.
      */
     public Weather parseWeather(JsonReader reader) throws IOException {
+
         reader.beginObject();
 
         final Weather weather = new Weather();
-        while(reader.hasNext()) {
-            switch(reader.nextName()) {
+        while (reader.hasNext()) {
+            switch (reader.nextName()) {
                 case Weather.description_JSON:
-                    weather.setDescription(reader.nextString()); break;
+                    weather.setDescription(reader.nextString());
+                    break;
                 case Weather.icon_JSON:
-                    weather.setIcon(reader.nextString()); break;
+                    weather.setIcon(reader.nextString());
+                    break;
                 case Weather.id_JSON:
-                    weather.setId(reader.nextLong()); break;
+                    weather.setId(reader.nextLong());
+                    break;
                 case Weather.main_JSON:
-                    weather.setMain(reader.nextString());break;
+                    weather.setMain(reader.nextString());
+                    break;
                 default:
-                    reader.skipValue(); break;
+                    reader.skipValue();
+                    break;
             }
         }
-        reader.endObject();
 
+        reader.endObject();
         return weather;
     }
-    
+
     /**
      * Parse a Json stream and return a Main Object.
      */
@@ -122,24 +137,32 @@ public class WeatherJSONParser {
         reader.beginObject();
 
         final Main main = new Main();
-        while(reader.hasNext()) {
-            switch(reader.nextName()) {
+        while (reader.hasNext()) {
+            switch (reader.nextName()) {
                 case Main.grndLevel_JSON:
-                    main.setGrndLevel(reader.nextDouble());break;
+                    main.setGrndLevel(reader.nextDouble());
+                    break;
                 case Main.humidity_JSON:
-                    main.setHumidity(reader.nextLong()); break;
+                    main.setHumidity(reader.nextLong());
+                    break;
                 case Main.pressure_JSON:
-                    main.setPressure(reader.nextDouble()); break;
+                    main.setPressure(reader.nextDouble());
+                    break;
                 case Main.seaLevel_JSON:
-                    main.setSeaLevel(reader.nextDouble()); break;
+                    main.setSeaLevel(reader.nextDouble());
+                    break;
                 case Main.temp_JSON:
-                    main.setTemp(reader.nextDouble()); break;
+                    main.setTemp(reader.nextDouble());
+                    break;
                 case Main.tempMax_JSON:
-                    main.setTempMax(reader.nextDouble()); break;
+                    main.setTempMax(reader.nextDouble());
+                    break;
                 case Main.tempMin_JSON:
-                    main.setTempMin(reader.nextDouble());break;
+                    main.setTempMin(reader.nextDouble());
+                    break;
                 default:
-                    reader.skipValue(); break;
+                    reader.skipValue();
+                    break;
             }
         }
         reader.endObject();
@@ -154,14 +177,17 @@ public class WeatherJSONParser {
         reader.beginObject();
 
         final Wind wind = new Wind();
-        while(reader.hasNext()) {
-            switch(reader.nextName()) {
+        while (reader.hasNext()) {
+            switch (reader.nextName()) {
                 case Wind.deg_JSON:
-                    wind.setDeg(reader.nextDouble()); break;
+                    wind.setDeg(reader.nextDouble());
+                    break;
                 case Wind.speed_JSON:
-                    wind.setSpeed(reader.nextDouble()); break;
+                    wind.setSpeed(reader.nextDouble());
+                    break;
                 default:
-                    reader.skipValue(); break;
+                    reader.skipValue();
+                    break;
             }
         }
         reader.endObject();
@@ -176,20 +202,28 @@ public class WeatherJSONParser {
         reader.beginObject();
 
         final Sys sys = new Sys();
-        while(reader.hasNext()) {
-            switch(reader.nextName()) {
+        while (reader.hasNext()) {
+            final String nextName = reader.nextName();
+            System.out.println(nextName);
+            switch (nextName) {
                 case Sys.country_JSON:
-                    sys.setCountry(reader.nextString()); break;
+                    sys.setCountry(reader.nextString());
+                    break;
                 case Sys.message_JSON:
-                    sys.setMessage(reader.nextDouble()); break;
+                    sys.setMessage(reader.nextDouble());
+                    break;
                 case Sys.sunrise_JSON:
-                    sys.setSunrise(reader.nextLong()); break;
+                    sys.setSunrise(reader.nextLong());
+                    break;
                 case Sys.sunset_JSON:
-                    sys.setSunset(reader.nextLong()); break;
+                    sys.setSunset(reader.nextLong());
+                    break;
                 default:
-                    reader.skipValue(); break;
+                    reader.skipValue();
+                    break;
             }
         }
-        return null;
+        reader.endObject();
+        return sys;
     }
 }

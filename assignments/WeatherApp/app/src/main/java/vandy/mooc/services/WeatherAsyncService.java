@@ -17,7 +17,7 @@ import vandy.mooc.utils.Utils;
 public class WeatherAsyncService extends Service {
 
     public static Intent makeIntent(Context context) {
-        return new Intent(context, WeatherSyncService.class);
+        return new Intent(context, WeatherAsyncService.class);
     }
 
     @Override

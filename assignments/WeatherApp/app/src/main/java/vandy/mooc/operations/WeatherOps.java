@@ -17,10 +17,11 @@ import vandy.mooc.aidl.WeatherResults;
 import vandy.mooc.services.WeatherAsyncService;
 import vandy.mooc.services.WeatherSyncService;
 import vandy.mooc.utils.GenericServiceConnection;
+import vandy.mooc.utils.Utils;
 
 /**
  * This class implements all the acronym-related operations defined in
- * the AcronymOps interface.
+ * the IWeatherOps interface.
  */
 public class WeatherOps implements IWeatherOps {
 
@@ -40,7 +41,7 @@ public class WeatherOps implements IWeatherOps {
             mDisplayHandler.post(new Runnable() {
                 public void run() {
                     mResults = weatherData;
-                    mActivity.get().displayResults(weatherData, null);
+                    mActivity.get().displayResults(weatherData, "Nothing found!");
                 }
             });
         }
@@ -131,6 +132,7 @@ public class WeatherOps implements IWeatherOps {
             return;
 
         new AsyncTask<String, Void, List<WeatherData>> () {
+
             private String mLocation;
 
             protected List<WeatherData> doInBackground(String... location) {

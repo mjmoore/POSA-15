@@ -12,7 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import vandy.mooc.aidl.WeatherData;
 import vandy.mooc.operations.IWeatherOps;
@@ -23,6 +26,9 @@ import vandy.mooc.utils.RetainedFragmentManager;
 public class WeatherActivity extends Activity {
 
     private final String TAG = WeatherActivity.class.getName();
+
+    private final int CACHE_TIME = 10000; //ms
+    private final Map<String, AbstractMap.SimpleEntry<Long, String>> cacheMap = new HashMap<>();
 
     private View view;
 
@@ -41,7 +47,19 @@ public class WeatherActivity extends Activity {
         this.getFragmentManager(), TAG);
 
     public void displayResults(List<WeatherData> weatherData, String reason) {
-        System.out.println("Returned weather to UI");
+        if(weatherData.isEmpty()) {
+            outputText.setText(reason);
+        } else {
+            final WeatherData result = weatherData.get(0);
+            outputText.setText(result.toString());
+            System.out.println("Caching value for " + result.mName);
+            cacheMap.put(result.mName, new AbstractMap.SimpleEntry<>(
+                System.currentTimeMillis(), result.toString()));
+        }
+    }
+
+    private void displayResults(String result) {
+        outputText.setText(result);
     }
 
     @Override
@@ -69,7 +87,6 @@ public class WeatherActivity extends Activity {
             weatherOps.onConfigurationChange(this);
         }
 
-        //TODO: Setup state
         return;
     }
 
@@ -100,10 +117,28 @@ public class WeatherActivity extends Activity {
             public void onClick(View v) {
 
                 String location = mLocation.getText().toString();
-
-
                 if(location == null || location.isEmpty())
                     location = "Nashville";
+
+                System.out.println("Current Cache: ");
+                for(String cachedLocation : cacheMap.keySet()) {
+                    System.out.println(cachedLocation);
+                }
+
+                if(cacheMap.containsKey(location)) {
+                    System.out.println("Cache key found");
+                    if(cacheMap.get(location).getKey() + CACHE_TIME > System.currentTimeMillis()) {
+                        System.out.println("cache value is to be used");
+                        displayResults("(Cached)\n" + cacheMap.get(location).getValue());
+                        return;
+                    } else { //Cache time has elapsed
+                        System.out.println("Cache value too old, purging");
+                        cacheMap.remove(location);
+                    }
+                } else {
+                    System.out.println("Nothing found in cache");
+                }
+
 
                 System.out.println("Sync: " + aSync);
                 System.out.println("Fetching weather for "  + location);
